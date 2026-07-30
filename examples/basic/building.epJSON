@@ -1,0 +1,27 @@
+{
+  "ExternalInterface:FunctionalMockupUnitExport:From:Variable": {
+    "Zone temperature": {
+      "fmu_variable_name": "zoneTemperature",
+      "output_variable_index_key_name": "ZONE ONE",
+      "output_variable_name": "Zone Mean Air Temperature"
+    }
+  },
+  "RunPeriod": {
+    "Two days": {
+      "begin_day_of_month": 1,
+      "begin_month": 1,
+      "end_day_of_month": 2,
+      "end_month": 1
+    }
+  },
+  "Timestep": {
+    "Timestep 1": {
+      "number_of_timesteps_per_hour": 4
+    }
+  },
+  "Version": {
+    "Version 1": {
+      "version_identifier": "26.1"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+schema_version: 1
+model:
+  name: OneZoneIndoorConditions
+
+outputs:
+  - name: indoorTemperature
+    kind: variable
+    key: ZONE ONE
+    variable: Zone Mean Air Temperature
+    unit: degC
+
+  - name: indoorRelativeHumidity
+    kind: variable
+    key: ZONE ONE
+    variable: Zone Air Relative Humidity
+    unit: percent

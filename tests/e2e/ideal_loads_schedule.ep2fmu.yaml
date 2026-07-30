@@ -1,0 +1,24 @@
+schema_version: 1
+model:
+  name: IdealLoadsScheduleControl
+
+inputs:
+  - name: heatingSetpoint
+    kind: schedule
+    key: External Heating Setpoint
+    schedule_type_limits: Temperature
+    start: 21.0
+    unit: degC
+
+outputs:
+  - name: indoorTemperature
+    kind: variable
+    key: ZONE ONE
+    variable: Zone Mean Air Temperature
+    unit: degC
+
+  - name: sensibleHeatingRate
+    kind: variable
+    key: ONE ZONE IDEAL LOADS
+    variable: Zone Ideal Loads Supply Air Sensible Heating Rate
+    unit: W

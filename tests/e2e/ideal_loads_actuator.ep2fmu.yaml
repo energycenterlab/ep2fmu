@@ -1,0 +1,25 @@
+schema_version: 1
+model:
+  name: IdealLoadsMassFlowControl
+
+inputs:
+  - name: supplyAirMassFlow
+    kind: actuator
+    key: ONE ZONE IDEAL LOADS
+    component_type: Ideal Loads Air System
+    control_type: Air Mass Flow Rate
+    start: 0.2
+    unit: kg/s
+
+outputs:
+  - name: supplyNodeMassFlow
+    kind: variable
+    key: IDEAL SUPPLY NODE
+    variable: System Node Mass Flow Rate
+    unit: kg/s
+
+  - name: indoorTemperature
+    kind: variable
+    key: ZONE ONE
+    variable: Zone Mean Air Temperature
+    unit: degC

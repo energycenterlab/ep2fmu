@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    tags: [ "v*" ]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  runtime:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: linux64
+          - os: windows-2025
+            platform: win64
+          - os: macos-15-intel
+            platform: darwin64
+          - os: macos-15
+            platform: darwinarm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo build --locked --release --package ep2fmu-fmi2 --package ep2fmu-worker
+      - run: python scripts/package_runtime.py --platform ${{ matrix.platform }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: runtime-${{ matrix.platform }}
+          path: src/ep2fmu/runtime/${{ matrix.platform }}.zip
+
+  macos-universal:
+    needs: runtime
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: runtime-darwin64
+          path: macos/x64
+      - uses: actions/download-artifact@v4
+        with:
+          name: runtime-darwinarm64
+          path: macos/arm64
+      - run: >
+          python scripts/merge_macos_runtime.py
+          --x64 macos/x64/darwin64.zip
+          --arm64 macos/arm64/darwinarm64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: runtime-macos-universal
+          path: |
+            src/ep2fmu/runtime/darwin64.zip
+            src/ep2fmu/runtime/darwinarm64.zip
+
+  publish:
+    needs: [ runtime, macos-universal ]
+    runs-on: ubuntu-24.04
+    environment: pypi
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: runtime-linux64
+          path: src/ep2fmu/runtime
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: runtime-win64
+          path: src/ep2fmu/runtime
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: runtime-macos-universal
+          path: src/ep2fmu/runtime
+          merge-multiple: true
+      - uses: astral-sh/setup-uv@v6
+      - run: uv build
+      - run: sha256sum dist/* src/ep2fmu/runtime/*.zip > SHA256SUMS
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*
+            src/ep2fmu/runtime/*.zip
+            SHA256SUMS
+          generate_release_notes: true
+      - run: uv publish

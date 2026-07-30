@@ -1,0 +1,13 @@
+schema_version: 1
+model:
+  name: BasicBuilding
+inputs:
+  - name: heatingSetpoint
+    kind: schedule
+    key: FMU Heating Setpoint
+    schedule_type_limits: Temperature
+    start: 20.0
+outputs:
+  - name: electricity
+    kind: meter
+    meter: Electricity:Facility

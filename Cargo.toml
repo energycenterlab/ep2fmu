@@ -1,0 +1,22 @@
+[workspace]
+resolver = "2"
+members = [
+    "runtime/ep2fmu-protocol",
+    "runtime/ep2fmu-worker",
+    "runtime/ep2fmu-fmi2",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2021"
+license = "BSD-3-Clause"
+rust-version = "1.86"
+
+[workspace.dependencies]
+libloading = "0.8.6"
+rmp-serde = "1.3.0"
+serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.137"
+tempfile = "3.15.0"
+thiserror = "2.0.11"
+url = "2.5.4"

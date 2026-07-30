@@ -1,0 +1,16 @@
+.git
+.github
+.agents
+.codex
+.venv
+target
+dist
+htmlcov
+.mypy_cache
+.pytest_cache
+.ruff_cache
+**/__pycache__
+**/*.pyc
+**/*.fmu
+src/ep2fmu/runtime/*.zip
+benchmarks/results

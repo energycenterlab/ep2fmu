@@ -1,0 +1,76 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ep2fmu"
+version = "1.0.0"
+description = "Fast, compiler-free EnergyPlus 26.1 to FMI 2.0 Co-Simulation exporter"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "ep2fmu contributors" }]
+keywords = ["energyplus", "fmi", "fmu", "co-simulation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "pydantic>=2.10,<3",
+    "pyyaml>=6.0.2,<7",
+    "typer>=0.15,<1",
+]
+
+[project.optional-dependencies]
+test = [
+    "fmpy>=0.3.22",
+    "mypy>=1.14",
+    "pytest>=8.3",
+    "pytest-cov>=6",
+    "ruff>=0.9",
+    "types-pyyaml>=6.0.12",
+]
+
+[project.scripts]
+ep2fmu = "ep2fmu.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/ep2fmu/ep2fmu"
+Issues = "https://github.com/ep2fmu/ep2fmu/issues"
+
+[tool.hatch.build]
+artifacts = ["src/ep2fmu/runtime/*.zip"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ep2fmu"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/ep2fmu",
+    "tests",
+    "examples",
+    "runtime",
+    "Cargo.toml",
+    "Cargo.lock",
+    "README.md",
+    "LICENSE",
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["ep2fmu"]
