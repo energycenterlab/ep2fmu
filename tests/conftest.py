@@ -19,7 +19,11 @@ def sample_epjson() -> dict[str, object]:
                 "end_day_of_month": 2,
             }
         },
-        "ExternalInterface": {"FunctionalMockupUnitExport": {"name": "FunctionalMockupUnitExport"}},
+        "ExternalInterface": {
+            "FunctionalMockupUnitExport": {
+                "name_of_external_interface": "FunctionalMockupUnitExport"
+            }
+        },
         "ExternalInterface:FunctionalMockupUnitExport:From:Variable": {
             "Zone temperature mapping": {
                 "output_variable_index_key_name": "Zone 1",
