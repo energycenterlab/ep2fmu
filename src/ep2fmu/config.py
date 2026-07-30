@@ -54,6 +54,17 @@ def _records(epjson: Mapping[str, Any], object_type: str) -> list[tuple[str, Map
     return records
 
 
+def _external_interface_name(fields: Mapping[str, Any]) -> str:
+    value = _field(
+        fields,
+        "name_of_external_interface",
+        "name",
+        "external_interface_name",
+        required=False,
+    )
+    return str(value or "")
+
+
 def extract_legacy_config(epjson: Mapping[str, Any]) -> BuildConfig:
     """Translate EnergyPlus FMU-export objects into the public config model."""
 
@@ -198,7 +209,7 @@ def transform_epjson(epjson: Mapping[str, Any], config: BuildConfig) -> dict[str
             if str(name).casefold() != "functionalmockupunitexport"
                and not (
                     isinstance(value, Mapping)
-                    and str(value.get("name", "")).casefold() == "functionalmockupunitexport"
+                    and _external_interface_name(value).casefold() == "functionalmockupunitexport"
             )
         }
         if filtered:
