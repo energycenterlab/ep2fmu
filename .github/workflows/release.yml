@@ -79,6 +79,10 @@ jobs:
           merge-multiple: true
       - uses: astral-sh/setup-uv@v6
       - run: uv build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-distribution
+          path: dist/*
       - run: sha256sum dist/* src/ep2fmu/runtime/*.zip > SHA256SUMS
       - uses: softprops/action-gh-release@v2
         with:

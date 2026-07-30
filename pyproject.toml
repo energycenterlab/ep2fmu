@@ -27,6 +27,11 @@ dependencies = [
 [project.optional-dependencies]
 test = [
     "fmpy>=0.3.22",
+    "pytest>=8.3",
+    "pytest-cov>=6",
+]
+dev = [
+    "fmpy>=0.3.22",
     "mypy>=1.14",
     "pytest>=8.3",
     "pytest-cov>=6",

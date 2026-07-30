@@ -189,7 +189,7 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
-test = [
+dev = [
     { name = "fmpy" },
     { name = "mypy" },
     { name = "pytest" },
@@ -197,20 +197,28 @@ test = [
     { name = "ruff" },
     { name = "types-pyyaml" },
 ]
+test = [
+    { name = "fmpy" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+]
 
 [package.metadata]
 requires-dist = [
+    { name = "fmpy", marker = "extra == 'dev'", specifier = ">=0.3.22" },
     { name = "fmpy", marker = "extra == 'test'", specifier = ">=0.3.22" },
-    { name = "mypy", marker = "extra == 'test'", specifier = ">=1.14" },
+    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.14" },
     { name = "pydantic", specifier = ">=2.10,<3" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8.3" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=6" },
     { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=6" },
     { name = "pyyaml", specifier = ">=6.0.2,<7" },
-    { name = "ruff", marker = "extra == 'test'", specifier = ">=0.9" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9" },
     { name = "typer", specifier = ">=0.15,<1" },
-    { name = "types-pyyaml", marker = "extra == 'test'", specifier = ">=6.0.12" },
+    { name = "types-pyyaml", marker = "extra == 'dev'", specifier = ">=6.0.12" },
 ]
-provides-extras = ["test"]
+provides-extras = ["test", "dev"]
 
 [[package]]
 name = "fastjsonschema"

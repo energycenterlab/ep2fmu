@@ -1,4 +1,9 @@
-"""Public API for ep2fmu."""
+"""Public package surface for ep2fmu.
+
+Import from this module when using ep2fmu as a library. It exposes the stable
+build and validation entry points together with the typed configuration and
+result models.
+"""
 
 __version__ = "1.0.0"
 
@@ -9,6 +14,7 @@ from ep2fmu.models import (
     BuildResult,
     InputMapping,
     OutputMapping,
+    ValidationIssue,
     ValidationReport,
 )
 
@@ -18,6 +24,7 @@ __all__ = [
     "BuildResult",
     "InputMapping",
     "OutputMapping",
+    "ValidationIssue",
     "ValidationReport",
     "build_fmu",
     "validate_model",

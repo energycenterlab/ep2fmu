@@ -79,10 +79,19 @@ files are used.
 
 ## Installation
 
-Install the published package with `uv`:
+Use the path that matches your goal:
+
+| Goal                                   | Command                       |
+|----------------------------------------|-------------------------------|
+| Add `ep2fmu` to another Python project | `uv add ep2fmu`               |
+| Install the standalone CLI             | `uv tool install ep2fmu`      |
+| Work on this repository locally        | `uv sync --extra dev`         |
+| Run without local Python setup         | `docker run ... ep2fmu:1 ...` |
+
+Install `ep2fmu` as a dependency in another project with `uv`:
 
 ```console
-uv tool install ep2fmu
+uv add ep2fmu
 ```
 
 or with `pipx`:
@@ -92,23 +101,24 @@ pipx install ep2fmu
 ```
 
 Those commands resolve `ep2fmu` from a package registry. They only work when
-the package has been published under that name.
+the package has been published under that name. Use `uv tool install ep2fmu`
+if you want the standalone CLI instead of a project dependency.
 
-To use a local checkout of this repository instead, install from the source
-tree:
-
-```console
-uv tool install --editable .
-```
-
-or:
+To work on a local checkout of this repository, sync the development
+environment:
 
 ```console
-pipx install .
+uv sync --extra dev
 ```
 
-The editable `uv` form keeps the installed command linked to the local working
-tree, which is useful during development.
+or, for an editable install in another environment:
+
+```console
+uv pip install -e .
+```
+
+The `dev` extra includes the test and linting tools used by this repository.
+It is the recommended choice when working on the codebase itself.
 
 Set `ENERGYPLUS_HOME` to the EnergyPlus 26.1.0 installation directory:
 
@@ -513,7 +523,9 @@ through platform emulation.
 ```python
 from pathlib import Path
 
-from ep2fmu import BuildOptions, build_fmu, validate_model
+from ep2fmu import BuildOptions, BuildConfig, BuildResult, ValidationIssue
+from ep2fmu import InputMapping, OutputMapping, ValidationReport
+from ep2fmu import build_fmu, validate_model
 
 options = BuildOptions(
     model_path=Path("building.idf"),
@@ -532,12 +544,15 @@ else:
 
 The stable public API exposes:
 
-- `build_fmu(BuildOptions) -> BuildResult`;
-- `validate_model(BuildOptions) -> ValidationReport`;
+- `BuildOptions`;
 - `BuildConfig`;
+- `BuildResult`;
 - `InputMapping`;
 - `OutputMapping`;
-- `BuildResult`.
+- `ValidationIssue`;
+- `ValidationReport`;
+- `build_fmu(BuildOptions) -> BuildResult`;
+- `validate_model(BuildOptions) -> ValidationReport`;
 
 ## Next improvements
 
@@ -567,7 +582,7 @@ completed model.
 Install development dependencies and run Python checks:
 
 ```console
-uv sync --extra test
+uv sync --extra dev
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
