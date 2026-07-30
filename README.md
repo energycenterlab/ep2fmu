@@ -19,6 +19,27 @@ machine that runs the FMU. The provided Docker image includes the supported
 EnergyPlus installation and can be used as a self-contained export
 environment.
 
+## Requirements
+
+To use `ep2fmu` directly on the host, you need:
+
+- Python 3.12 or newer;
+- EnergyPlus 26.1.0 installed locally;
+- access to the `energyplus` executable or an explicit `ENERGYPLUS_HOME`;
+- a supported platform for the packaged runtime: Linux x64, Windows x64,
+  macOS x64 or macOS arm64;
+- a weather file in EPW format for every export or validation run;
+- `uv` or `pipx` only if you want to install the CLI as a user tool.
+
+If you build or test the project from source, you also need:
+
+- Rust toolchain with `cargo`;
+- the native build prerequisites required by the target platform.
+
+For `build`, the model file must be an EnergyPlus `.idf` or `.epJSON` file and
+the selected mappings must be resolvable against the model and its resources.
+If you use the Docker image, the host only needs Docker.
+
 ## Features
 
 - Accepts EnergyPlus `.idf` and `.epJSON` models.
@@ -58,7 +79,7 @@ files are used.
 
 ## Installation
 
-Install the command with `uv`:
+Install the published package with `uv`:
 
 ```console
 uv tool install ep2fmu
@@ -69,6 +90,25 @@ or with `pipx`:
 ```console
 pipx install ep2fmu
 ```
+
+Those commands resolve `ep2fmu` from a package registry. They only work when
+the package has been published under that name.
+
+To use a local checkout of this repository instead, install from the source
+tree:
+
+```console
+uv tool install --editable .
+```
+
+or:
+
+```console
+pipx install .
+```
+
+The editable `uv` form keeps the installed command linked to the local working
+tree, which is useful during development.
 
 Set `ENERGYPLUS_HOME` to the EnergyPlus 26.1.0 installation directory:
 
